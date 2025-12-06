@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MiApp — LogopediaApp</title>
+  <meta name="description" content="LogopediaApp – ejercicios y recursos para logopedia. Descárgala en Google Play.">
+  <!-- Open Graph -->
+  <meta property="og:title" content="LogopediaApp — Tu asistente de logopedia">
+  <meta property="og:description" content="Ejercicios, seguimiento y recursos para pacientes y profesionales.">
+  <meta property="og:image" content="/assets/social-preview.png">
+  <meta property="og:type" content="website">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {padding-top: 70px;}
+    .hero {padding: 60px 0;}
+    .screenshot {max-width: 320px; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08);}
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="#">LogopediaApp</a>
+    <div>
+      <a class="btn btn-outline-primary" href="https://play.google.com/store/apps/details?id=TU_APP_ID" target="_blank">Descargar</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <h1 class="display-6">La app para apoyar la terapia del lenguaje</h1>
+        <p class="lead">Ejercicios, recursos y seguimiento para logopedas y familias. Fácil, rápido y efectivo.</p>
+        <p>
+          <a href="https://play.google.com/store/apps/details?id=TU_APP_ID" target="_blank">
+            <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/es_badge_web_generic.png" style="height:60px;">
+          </a>
+        </p>
+      </div>
+      <div class="col-md-6 text-center">
+        <!-- Vídeo demo embebido -->
+        <div class="ratio ratio-16x9">
+          <iframe src="https://www.youtube.com/embed/YOUTUBE_VIDEO_ID" title="Vídeo demo" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="py-5">
+  <div class="container">
+    <h2>Características</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h5>Recursos interactivos</h5>
+        <p>Ejercicios guiados para distintas edades y niveles.</p>
+      </div>
+      <div class="col-md-4">
+        <h5>Gestión de pacientes</h5>
+        <p>Seguimiento de progreso y notas para cada sesión.</p>
+      </div>
+      <div class="col-md-4">
+        <h5>Contenido descargable</h5>
+        <p>Materiales imprimibles y audio para práctica en casa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-white">
+  <div class="container">
+    <h2>Capturas</h2>
+    <div class="d-flex gap-3 flex-wrap">
+      <img src="/assets/screen1.png" alt="Captura 1" class="screenshot">
+      <img src="/assets/screen2.png" alt="Captura 2" class="screenshot">
+      <img src="/assets/screen3.png" alt="Captura 3" class="screenshot">
+    </div>
+  </div>
+</section>
+
+<footer class="py-4 bg-light">
+  <div class="container d-flex justify-content-between">
+    <div>
+      <small>© <span id="year"></span> LogopediaApp</small>
+    </div>
+    <div>
+      <a href="/privacy">Política de privacidad</a>
+      &nbsp;•&nbsp;
+      <a href="mailto:tuemail@dominio.com">Contacto</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
