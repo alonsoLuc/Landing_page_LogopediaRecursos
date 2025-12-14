@@ -1,99 +1,592 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>MiApp — LogopediaApp</title>
-  <meta name="description" content="LogopediaApp – ejercicios y recursos para logopedia. Descárgala en Google Play.">
-  <!-- Open Graph -->
-  <meta property="og:title" content="LogopediaApp — Tu asistente de logopedia">
-  <meta property="og:description" content="Ejercicios, seguimiento y recursos para pacientes y profesionales.">
-  <meta property="og:image" content="/assets/social-preview.png">
-  <meta property="og:type" content="website">
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LogopediaApp — Tu Asistente Inteligente de Logopedia</title>
+  <meta name="description" content="LogopediaApp – ejercicios, recursos y gestión para logopedas y familias. Descárgala en Google Play." />
+  <meta property="og:title" content="LogopediaApp — Tu Asistente Inteligente de Logopedia" />
+  <meta property="og:description" content="Inteligencia artificial, CRM y comunicación terapéutica en una sola app. Ahorra tiempo y mejora resultados." />
+  <meta property="og:image" content="/assets/social-preview.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Bootstrap 5 CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <style>
-    body {padding-top: 70px;}
-    .hero {padding: 60px 0;}
-    .screenshot {max-width: 320px; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,.08);}
-  </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+
+<!-- NAVBAR con enlaces a Ventajas, Vídeos y Prueba Gratis -->
+<nav class="navbar navbar-expand-lg">
   <div class="container">
-    <a class="navbar-brand" href="#">LogopediaApp</a>
-    <div>
-      <a class="btn btn-outline-primary" href="https://play.google.com/store/apps/details?id=TU_APP_ID" target="_blank">Descargar</a>
+    <a class="brand navbar-brand d-flex align-items-center gap-2" href="#">
+      <img src="assets/logo.png"  class="navbar-logo">
+      <span class="d-none d-lg-inline">LogopediaApp - Recursos</span>
+    </a>
+
+    <!-- Toggler para móvil -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+      aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon" style="filter:invert(20%);"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+      <!-- Enlaces principales a secciones de la landing -->
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="#ventajas">Ventajas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#demo">Vídeos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#features">Características</a>
+        </li>
+        
+        <li class="nav-item d-none d-lg-block">
+          <a class="nav-link" href="#contacto-prueba">Prueba Gratis</a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
 
-<header class="hero bg-light">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-6">
-        <h1 class="display-6">La app para apoyar la terapia del lenguaje</h1>
-        <p class="lead">Ejercicios, recursos y seguimiento para logopedas y familias. Fácil, rápido y efectivo.</p>
-        <p>
-          <a href="https://play.google.com/store/apps/details?id=TU_APP_ID" target="_blank">
-            <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/es_badge_web_generic.png" style="height:60px;">
-          </a>
-        </p>
+<!-- Modal: Prueba Gratis (captura nombre + email) -->
+<div class="modal fade" id="trialModal" tabindex="-1" aria-labelledby="trialModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold" id="trialModalLabel">Solicita tu prueba gratis</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
       </div>
-      <div class="col-md-6 text-center">
-        <!-- Vídeo demo embebido -->
-        <div class="ratio ratio-16x9">
-          <iframe src="https://www.youtube.com/embed/YOUTUBE_VIDEO_ID" title="Vídeo demo" allowfullscreen></iframe>
+      <div class="modal-body">
+        <p class="mb-2">Prueba LogopediaApp gratis durante 14 días. Sin tarjeta. Te enviaremos acceso y una guía rápida.</p>
+
+        <form id="trialForm">
+          <div class="mb-3">
+            <label for="trialName" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="trialName" name="name" placeholder="Tu nombre" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="trialEmail" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" id="trialEmail" name="email" placeholder="tu@correo.com" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="trialRole" class="form-label">Soy</label>
+            <select id="trialRole" name="role" class="form-select">
+              <option value="logopeda" selected>Logopeda / Fonoaudióloga</option>
+              <option value="clinica">Clínica</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Solicitar prueba gratis</button>
+          </div>
+        </form>
+
+        <div id="trialAlert" class="alert mt-3 d-none" role="alert"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT: Smooth scroll y lógica del modal/form -->
+<script>
+  // Smooth scroll para enlaces ancla (comportamiento agradable)
+  document.querySelectorAll('a.nav-link[href^="#"]').forEach(a=>{
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (!target) return;
+      const yOffset = -72; // ajustar si tu navbar tiene altura fija
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({top: y, behavior: 'smooth'});
+      // si estamos en móvil, cerrar el collapse
+      const bsCollapse = document.querySelector('.navbar-collapse');
+      if (bsCollapse && bsCollapse.classList.contains('show')) {
+        new bootstrap.Collapse(bsCollapse).toggle();
+      }
+    });
+  });
+
+  // Abrir modal Prueba Gratis
+  const openTrialBtn = document.getElementById('openTrialBtn');
+  openTrialBtn?.addEventListener('click', () => {
+    const trialModal = new bootstrap.Modal(document.getElementById('trialModal'));
+    trialModal.show();
+  });
+
+  // Envío del formulario (ejemplo; sustituye por tu API / Mailchimp / Zapier)
+  const trialForm = document.getElementById('trialForm');
+  const trialAlert = document.getElementById('trialAlert');
+
+  trialForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('trialName').value.trim();
+    const email = document.getElementById('trialEmail').value.trim();
+    const role = document.getElementById('trialRole').value;
+
+    // Validación mínima
+    if (!name || !email) {
+      showAlert('Rellena tu nombre y correo.', 'danger');
+      return;
+    }
+
+    // Mostrar feedback al usuario (puedes cambiar por spinner)
+    showAlert('Enviando…', 'info');
+
+    try {
+      // Aquí iría tu llamada real a la API / servicio de email.
+      // Ejemplo comentado (fetch):
+      /*
+      const resp = await fetch('/api/trial-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, role })
+      });
+      const json = await resp.json();
+      if (!resp.ok) throw new Error(json.message || 'Error al solicitar la prueba');
+      */
+
+      // Simulación de éxito (quita en producción)
+      await new Promise(r => setTimeout(r, 800));
+
+      showAlert('¡Perfecto! Te hemos enviado acceso y la guía al correo.', 'success');
+      trialForm.reset();
+
+      // Cerrar modal después de 1.2s
+      setTimeout(() => {
+        const modalEl = document.getElementById('trialModal');
+        const modalInst = bootstrap.Modal.getInstance(modalEl);
+        modalInst?.hide();
+      }, 1200);
+
+    } catch (err) {
+      console.error(err);
+      showAlert('Error al enviar. Intenta otra vez o contacta por email.', 'danger');
+    }
+  });
+
+  function showAlert(text, type='info') {
+    trialAlert.className = 'alert mt-3 alert-' + type;
+    trialAlert.textContent = text;
+    trialAlert.classList.remove('d-none');
+  }
+</script>
+
+<header class="hero">
+  <div class="container">
+    <div class="row align-items-center gy-4">
+      <div class="col-lg-6">
+        <h1>LogopediaApp — Recursos</h1>
+        <p class="lead">La plataforma que te permite trabajar mejor, ahorrar tiempo y tener tu consulta organizada en un solo lugar.</p>
+
+        <div class="d-flex gap-3 align-items-center mt-4">
+          <a class="cta-primary" href="https://play.google.com/store/apps/details?id=com.logopedia.logopediarecursosapp" target="_blank">
+            Descargar en Google Play
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" class="ms-2"><path d="M5 12h14" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
+        
+
+        <div class="mt-3" style="color:var(--muted)"><strong>Ideal para logopedas, clínicas y estudiantes</strong> · Multilingüe · Privacidad clínica</div>
+
+        
+      <div class="col-lg-6 text-center">
+        <img src="/assets/phone-mock.png" alt="Vista app" class="phone-mock">
       </div>
     </div>
   </div>
 </header>
 
-<section class="py-5">
+<!-- === Sección: VENTAJAS (estilo Wodbuster) === -->
+<section id="ventajas" class="advantages">
   <div class="container">
-    <h2>Características</h2>
+    <h2 class="text-center fw-bold mb-5">VENTAJAS</h2>
+
+    <!-- Panels con imagen + texto grande -->
+  <div class="adv-panels">
+  <div class="adv-panel" style="background-image: url('/assets/pro-benefits.jpg');">
+    <div class="adv-overlay red-overlay">
+      <div>
+        <div class="adv-title">Ventajas para ti</div>
+        <div class="adv-sub">Más orden, menos tareas, mejores sesiones</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="adv-panel" style="background-image: url('/assets/patient-benefits.jpg');">
+    <div class="adv-overlay red-overlay">
+      <div>
+        <div class="adv-title">Ventajas para tus pacientes</div>
+        <div class="adv-sub">Motivación, práctica guiada y resultados</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- Listas detalladas (dos columnas) -->
+    <div class="row g-4 adv-list">
+      <div class="col-lg-6">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">⏱️</span>
+            <div>
+              <strong>Ahorro de tiempo</strong><br>
+              <small class="text-muted">Automatiza tareas repetitivas y dedica más tiempo a la intervención.</small>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">🗂️</span>
+            <div>
+              <strong>Organización completa</strong><br>
+              <small class="text-muted">Fichas, notas y agenda centralizadas por paciente.</small>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">🧠</span>
+            <div>
+              <strong>Intervenciones más eficaces</strong><br>
+              <small class="text-muted">Sugerencias y plantillas que te ayudan a diseñar mejores sesiones.</small>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">📄</span>
+            <div>
+              <strong>Material listo para usar</strong><br>
+              <small class="text-muted">Fichas, audios y ejercicios listos en segundos.</small>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">📈</span>
+            <div>
+              <strong>Seguimiento centralizado</strong><br>
+              <small class="text-muted">Historial de progreso y métricas en un mismo lugar.</small>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">🔒</span>
+            <div>
+              <strong>Comunicación segura</strong><br>
+              <small class="text-muted">Envía materiales y feedback con control de privacidad.</small>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-lg-6">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">📱</span>
+            <div>
+              <strong>Acceso desde el móvil</strong><br>
+              <small class="text-muted">Pacientes y familias siguen tareas y materiales desde su teléfono.</small>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">🎯</span>
+            <div>
+              <strong>Material adaptado y claro</strong><br>
+              <small class="text-muted">Ejercicios y audios pensados para la edad y objetivo del paciente.</small>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">💬</span>
+            <div>
+              <strong>Mejor comunicación</strong><br>
+              <small class="text-muted">Feedback directo con el profesional para resolver dudas.</small>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">🏡</span>
+            <div>
+              <strong>Práctica en casa guiada</strong><br>
+              <small class="text-muted">Tareas claras que favorecen la adherencia y el progreso.</small>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">📊</span>
+            <div>
+              <strong>Historial de progreso</strong><br>
+              <small class="text-muted">Ven su evolución y celebran los avances.</small>
+            </div>
+          </li>
+
+          <li class="list-group-item d-flex align-items-start">
+            <span class="list-emoji me-3">🔐</span>
+            <div>
+              <strong>Confianza y seguridad</strong><br>
+              <small class="text-muted">Protección de datos y permisos claros para las familias.</small>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features (sigue la estructura original) -->
+<section id="features">
+  <div class="container">
     <div class="row g-4">
       <div class="col-md-4">
-        <h5>Recursos interactivos</h5>
-        <p>Ejercicios guiados para distintas edades y niveles.</p>
+        <div class="feature-card h-100">
+          <h5>Recursos impulsados por IA</h5>
+          <p style="color:var(--muted)">Genera pautas, ejercicios y materiales terapéuticos adaptados por edad, diagnóstico o idioma en segundos.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card h-100">
+          <h5>Gestión para logopedas</h5>
+          <p style="color:var(--muted)">Fichas personalizadas, notas, asignación de tareas y almacenamiento de audios y documentos.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="feature-card h-100">
+          <h5>Comunicación segura</h5>
+          <p style="color:var(--muted)">Envía audios, notas y materiales a pacientes con control total de privacidad y permisos.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 mt-4">
+      <div class="col-md-4">
+        <div class="feature-card h-100">
+          <h5>Material descargable</h5>
+          <p style="color:var(--muted)">Fichas imprimibles y audios para práctica en casa que refuerzan el trabajo en consulta.</p>
+        </div>
       </div>
       <div class="col-md-4">
-        <h5>Gestión de pacientes</h5>
-        <p>Seguimiento de progreso y notas para cada sesión.</p>
+        <div class="feature-card h-100">
+          <h5>Personalización completa</h5>
+          <p style="color:var(--muted)">Ajusta actividades por edad, nivel y objetivos terapéuticos para cada paciente.</p>
+        </div>
       </div>
       <div class="col-md-4">
-        <h5>Contenido descargable</h5>
-        <p>Materiales imprimibles y audio para práctica en casa.</p>
+        <div class="feature-card h-100">
+          <h5>Multilingüe & Accesible</h5>
+          <p style="color:var(--muted)">Disponible en español, inglés, portugués y francés. Accede desde cualquier Android.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="py-5 bg-white">
+<section id="demo" style="background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);">
   <div class="container">
-    <h2>Capturas</h2>
-    <div class="d-flex gap-3 flex-wrap">
-      <img src="/assets/screen1.png" alt="Captura 1" class="screenshot">
-      <img src="/assets/screen2.png" alt="Captura 2" class="screenshot">
-      <img src="/assets/screen3.png" alt="Captura 3" class="screenshot">
+    <div class="row align-items-center g-4">
+      <div class="col-lg-6">
+        <h3>Ver cómo funciona</h3>
+        <p style="color:var(--muted)">Descubre el flujo: crear actividades, registrar progreso y compartir recursos con la familia en pocos pasos.</p>
+        <ul style="color:var(--muted)">
+          <li>Interfaz pensada para el profesional y el paciente</li>
+          <li>Sesiones prácticas y seguimiento documentado</li>
+          <li>IA que sugiere recursos y tareas personalizadas</li>
+        </ul>
+      </div>
+
+      <div class="col-lg-6">
+  <div class="ratio ratio-16x9">
+    <iframe 
+      src="https://www.youtube.com/embed/og6A7xaG6Ho"
+      title="Demo LogopediaApp"
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
     </div>
   </div>
 </section>
 
-<footer class="py-4 bg-light">
-  <div class="container d-flex justify-content-between">
-    <div>
-      <small>© <span id="year"></span> LogopediaApp</small>
+<section class="text-center">
+  <div class="container">
+    <blockquote class="blockquote">
+      <p style="color:var(--muted)">"LogopediaApp ha transformado mi práctica: ahorro tiempo y mis pacientes trabajan mejor en casa."</p>
+      <footer class="blockquote-footer" style="color:var(--muted)">— Logopeda, María G.</footer>
+    </blockquote>
+
+    <div class="mt-4">
+      <a href="https://play.google.com/store/apps/details?id=com.logopedia.logopediarecursosapp"
+   target="_blank"
+   rel="noopener"
+   class="play-badge">
+  <img
+    src="https://play.google.com/intl/en_us/badges/static/images/badges/es_badge_web_generic.png"
+    alt="Disponible en Google Play">
+</a>
+
     </div>
+  </div>
+</section>
+<!-- ======= CONTACTO / SOLICITA 1 MES PREMIUM GRATIS (Blanco & Rojo) ======= -->
+<section id="contacto-prueba" style="padding:48px 0; background:transparent;">
+  <div class="container">
+    <div style="background:#ffffff; border-radius:10px; padding:30px; display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap; border:1px solid rgba(217,43,43,0.08); box-shadow:0 10px 30px rgba(11,18,32,0.04);">
+      
+      <!-- LEFT: Form -->
+      <div style="flex:1 1 640px; min-width:300px;">
+        <small style="font-weight:700; letter-spacing:1px; display:block; color:var(--red);">¡COMIENZA YA!</small>
+        <h2 style="font-size:1.9rem; margin:6px 0 12px; font-weight:800; color:#0b1220;">CONTACTO / SOLICITA TU MES PREMIUM GRATIS</h2>
+        <p style="color:#374151; margin-bottom:14px;">Déjanos tus datos y activamos 30 días gratis de LogopediaApp Premium. Te acompañamos en la configuración para que empieces a sacar provecho desde el primer día.</p>
+
+        <form id="trialForm" style="display:block; gap:10px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+            <input id="t_name" type="text" placeholder="Tu nombre" required style="padding:12px 14px; border-radius:8px; border:1px solid rgba(15,23,42,0.06); font-size:1rem; background:#fafafa;">
+            <input id="t_email" type="email" placeholder="Tu email" required style="padding:12px 14px; border-radius:8px; border:1px solid rgba(15,23,42,0.06); font-size:1rem; background:#fafafa;">
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+            <input id="t_phone" type="tel" placeholder="Tu teléfono (opcional)" style="padding:12px 14px; border-radius:8px; border:1px solid rgba(15,23,42,0.06); font-size:1rem; background:#fafafa;">
+            <select id="t_role" style="padding:12px 14px; border-radius:8px; border:1px solid rgba(15,23,42,0.06); font-size:1rem; background:#fafafa;">
+              <option value="Logopeda" selected>Logopeda / Fonoaudióloga</option>
+              <option value="Clinica">Clínica</option>
+              <option value="Estudiante">Estudiante</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <textarea id="t_msg" rows="4" placeholder="Si quieres aclararnos algo o pedir ayuda (opcional)" style="width:100%; padding:12px 14px; border-radius:8px; border:1px solid rgba(15,23,42,0.06); font-size:1rem; margin-bottom:12px; background:#fafafa;"></textarea>
+
+          <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+            <button id="submitTrial" type="submit" style="background:linear-gradient(90deg,var(--red),var(--red-600)); color:white; padding:11px 18px; border-radius:8px; border:0; font-weight:700; cursor:pointer;">
+              Solicitar 1 mes gratis
+            </button>
+
+          
+          </div>
+
+          <div id="trialMsg" role="status" aria-live="polite" style="margin-top:12px; display:none;"></div>
+        </form>
+      </div>
+
+      <!-- RIGHT: Contact info -->
+      <aside style="width:320px; min-width:240px;">
+        <div style="background:#fff; color:#0b1220; border-radius:8px; padding:18px; border:1px solid rgba(15,23,42,0.04);">
+          <h4 style="margin:0 0 8px 0; font-size:1.05rem; color:#0b1220;">Contacto</h4>
+          <p style="margin:0 0 12px 0; color:#6b7280;">Te devolvemos el acceso premium y te ayudamos con la configuración inicial.</p>
+
+          <div style="font-size:0.95rem; line-height:1.6; color:#111827;">
+            <div><strong style="color:var(--red);">Teléfono:</strong> <a href="tel:+34911238103" style="color:#0b1220; text-decoration:none;">+34 91 123 81 03</a></div>
+            <div><strong style="color:var(--red);">Email:</strong> <a id="supportEmail" href="mailto:hola@tudominio.com" style="color:#0b1220; text-decoration:none;">hola@tudominio.com</a></div>
+            <div style="margin-top:12px;"><strong style="color:var(--red);">Horario:</strong> Lun–Vie 9:00–18:00</div>
+          </div>
+
+          <div style="margin-top:14px; font-size:0.85rem; color:#6b7280;">
+            <div><strong>¿Prefieres que te llamemos?</strong> Indícalo en el mensaje y te llamamos.</div>
+            <div style="margin-top:8px;">Protegemos tus datos. Léenos en <a href="/privacy.html" style="color:var(--red);">Política de privacidad</a>.</div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====== SCRIPT: envío (fetch) y WhatsApp quick action ====== -->
+<script>
+  (function(){
+    const form = document.getElementById('trialForm');
+    const submitBtn = document.getElementById('submitTrial');
+    const msgBox = document.getElementById('trialMsg');
+
+    // CONFIGURA tus datos:
+    const API_ENDPOINT = '/api/trial-request'; // cambia por tu endpoint real o deja para fallback mailto
+    const WHATSAPP_NUMBER = '34911238103'; // país + número sin +
+    const WHATSAPP_TEXT_DEFAULT = 'Hola, quiero solicitar 1 mes gratis de LogopediaApp Premium.';
+
+    function showMessage(text, type='info') {
+      msgBox.style.display = 'block';
+      msgBox.style.padding = '10px';
+      msgBox.style.borderRadius = '8px';
+      msgBox.style.background = (type==='success') ? '#ecfdf5' : (type==='error' ? '#fff1f2' : '#fff7ed');
+      msgBox.style.color = '#0b1220';
+      msgBox.style.border = '1px solid rgba(15,23,42,0.04)';
+      msgBox.innerText = text;
+    }
+
+    // Envío del formulario
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Enviando…';
+
+      const payload = {
+        name: document.getElementById('t_name').value.trim(),
+        email: document.getElementById('t_email').value.trim(),
+        phone: document.getElementById('t_phone').value.trim(),
+        role: document.getElementById('t_role').value,
+        message: document.getElementById('t_msg').value.trim(),
+        source: 'Landing - Solicitar 1 mes Premium'
+      };
+
+      // validación mínima
+      if (!payload.name || !payload.email) {
+        showMessage('Rellena tu nombre y correo.', 'error');
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Solicitar 1 mes gratis';
+        return;
+      }
+
+      try {
+        // Si tienes backend, descomenta el fetch y configura API_ENDPOINT
+        /*
+        const resp = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!resp.ok) throw new Error('Error en servidor');
+        */
+
+        // Simulación de envío (quita en producción)
+        await new Promise(res => setTimeout(res, 800));
+
+        showMessage('¡Perfecto! Hemos recibido tu solicitud. Te contactaremos en 24–48h para activar tu mes gratis.', 'success');
+        form.reset();
+
+      } catch (err) {
+        console.error(err);
+        // Fallback: crear mailto con los datos para enviar manualmente
+        const mailto = `mailto:hola@tudominio.com?subject=${encodeURIComponent('Solicitud 1 mes gratis - ' + payload.name)}&body=${encodeURIComponent(
+          'Nombre: ' + payload.name + '\nEmail: ' + payload.email + '\nTel: ' + payload.phone + '\nRol: ' + payload.role + '\n\nMensaje:\n' + payload.message
+        )}`;
+        showMessage('No se pudo enviar automáticamente. Puedes pulsar aquí para enviarnos un email manualmente.', 'error');
+        msgBox.innerHTML = 'No se pudo enviar automáticamente. <a href="' + mailto + '">Enviar email manualmente</a>';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Solicitar 1 mes gratis';
+      }
+    });
+  })();
+</script>
+
+
+<footer>
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
     <div>
-      <a href="/privacy">Política de privacidad</a>
-      &nbsp;•&nbsp;
-      <a href="mailto:tuemail@dominio.com">Contacto</a>
+      <strong>LogopediaApp</strong> · Asistente para logopedas<br>
+      <small class="text-muted">© <span id="year"></span> TuNombre / LogopediaApp</small>
+    </div>
+    <div class="mt-3 mt-md-0">
+      <a href="/privacy.html" class="small me-3">Política de privacidad</a>
+      <a href="mailto:tuemail@dominio.com" class="small">Contacto</a>
     </div>
   </div>
 </footer>
@@ -102,4 +595,138 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 </script>
 </body>
+ <style>
+    :root{
+      --red:#d92b2b;
+      --red-600:#c62828;
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.06);
+      --card: rgba(255,255,255,0.04);
+      --radius:14px;
+    }
+
+    /* Base */
+    html,body{height:100%;}
+    body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; color:#0b1220; background: linear-gradient(180deg,#fff 0%, #fafafa 100%); -webkit-font-smoothing:antialiased; }
+    a{color:var(--red); text-decoration:none;}
+    .navbar{background:#fff; border-bottom:1px solid #eee; padding:1rem 0;}
+    .brand{font-weight:700; color:var(--red);}
+    .hero{padding:4.5rem 0; background:linear-gradient(180deg, rgba(210,43,43,0.03), transparent);}
+    .hero h1{font-size:2.1rem; font-weight:700; color:#0b1220;}
+    .lead{color:#333; margin-top:.6rem;}
+    .cta-primary{background:linear-gradient(90deg,var(--red),var(--red-600)); color:#fff; padding:.85rem 1.1rem; border-radius:10px; font-weight:700; box-shadow:0 10px 30px rgba(201,40,40,0.12); display:inline-flex; align-items:center;}
+    .btn-outline-primary{border-color:var(--red); color:var(--red);}
+
+    .phone-mock{max-width:360px; width:100%; border-radius:28px; box-shadow: 0 30px 70px rgba(11,18,32,0.08); display:block; margin:auto;}
+    .feature-card{background:var(--card); border-radius:var(--radius); padding:1.2rem; border:1px solid rgba(10,10,10,0.03);}
+    .screenshot{border-radius:12px; max-width:260px; display:block; box-shadow: 0 16px 40px rgba(11,18,32,0.06);}
+    section{padding:3.5rem 0;}
+    footer{padding:2.5rem 0; color:var(--muted); background:transparent;}
+
+    /* Dark theme override */
+    @media (prefers-color-scheme: dark) {
+      :root{
+        --muted:#9aa4b2;
+        --glass: rgba(255,255,255,0.03);
+        --card: rgba(255,255,255,0.03);
+      }
+      body { background: linear-gradient(180deg,#041224 0%, #02121a 100%); color: #e6eef6; }
+      .navbar{background:transparent; border-bottom: 1px solid rgba(255,255,255,0.03);}
+      .brand{color:var(--red);}
+      .hero h1{color:#fff;}
+      .lead{color:#cbd5e1;}
+      .cta-primary{box-shadow:0 10px 40px rgba(0,0,0,0.6); color:#042;}
+      .btn-outline-primary{border-color:rgba(255,255,255,0.08); color:#fff;}
+      .feature-card{background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03);}
+      .phone-mock{box-shadow: 0 30px 80px rgba(2,6,23,0.7);}
+      footer{color: #9aa4b2;}
+    }
+
+    /* Ventajas: estilo tipo Wodbuster */
+    .advantages {
+      --panel-radius: 12px;
+      margin-top: 1rem;
+    }
+    .adv-panels {
+      display:flex;
+      gap:20px;
+      align-items:stretch;
+      margin-bottom: 1.5rem;
+      flex-wrap:wrap;
+    }
+    .adv-panel {
+      flex:1 1 48%;
+      min-height:160px;
+      border-radius:var(--panel-radius);
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      background-size:cover;
+      background-position:center;
+      box-shadow: 0 12px 40px rgba(11,18,32,0.06);
+    }
+    .adv-overlay {
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+      180deg,
+      rgba(217, 43, 43, 0.45),
+      rgba(217, 43, 43, 0.65)
+    );
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+
+  .adv-title {
+    color:#fff;
+    font-weight:800;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    font-size:2.2rem;
+    line-height:1;
+    margin:0;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.25);
+  }
+
+  .adv-sub {
+    color:#fff;
+    font-weight:700;
+    font-size:1.2rem;
+    margin-top:6px;
+    opacity:0.95;
+  }
+    /* list under panels */
+    .adv-list .list-group-item { border: 1px solid rgba(0,0,0,0.04); border-left:4px solid transparent; }
+    .adv-list .list-group-item:hover { background: rgba(0,0,0,0.01); }
+    .adv-list .list-emoji { width:34px; display:inline-block; text-align:center; font-size:18px; }
+
+    /* responsive */
+    @media (max-width: 991px){
+      .adv-panel{flex-basis:100%;}
+      .adv-title{font-size:1.6rem;}
+    }
+  .navbar-logo {
+  height: 50px;
+  width: auto;
+  display: block;
+  }
+  .play-badge img {
+  height: 56px;   /* tamaño ideal */
+  width: auto;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.play-badge img:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,.15);
+}
+
+
+
+  </style>
 </html>
