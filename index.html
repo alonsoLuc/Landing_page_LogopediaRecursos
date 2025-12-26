@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="google-site-verification" content="cMmE7dNSTvwJtxGdNYZDF4V-MAJsZ9PuJxsQWqC3A14" />
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>LogopediaApp - Recursos</title>
   <meta name="description" content="LogopediaApp – ejercicios, recursos y gestión para logopedas y familias. Descárgala en Google Play." />
@@ -47,10 +48,24 @@
         <li class="nav-item d-none d-lg-block">
           <a class="nav-link" href="#contacto-prueba">Solicita Información</a>
         </li>
+        <li class="nav-item d-none d-lg-block">
+          <a class="btn btn-login-solid ms-3" href="/login.html">
+            Iniciar sesión
+          </a>
+        </li>
+
       </ul>
     </div>
   </div>
 </nav>
+<div class="login-mobile-fixed d-lg-none">
+  <div class="container">
+    <a href="/login.html" class="login-mobile-btn login-mobile-inline">
+      Iniciar sesión
+    </a>
+  </div>
+</div>
+
 
 <!-- Modal: Prueba Gratis (captura nombre + email) -->
 <div class="modal fade" id="trialModal" tabindex="-1" aria-labelledby="trialModalLabel" aria-hidden="true">
@@ -1058,6 +1073,72 @@ document.getElementById('trialFormInfo').addEventListener('submit', function (e)
     color: var(--red);
   }
 }
+
+.btn-login-solid {
+  background: #d92b2b; /* rojo marca */
+  color: #ffffff !important;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: none;
+  font-size: 0.95rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(217, 43, 43, 0.35);
+  transition: background-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+
+.btn-login-solid:hover {
+  background: #c62828;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(217, 43, 43, 0.45);
+  color: #ffffff !important;
+}
+/* ===== LOGIN MOBILE (MISMO PESO QUE CTA PLAY) ===== */
+.login-mobile-fixed {
+  background: #ffffff;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding: 6px 0;
+}
+
+.login-mobile-inline {
+  display: inline-flex;    
+  align-items: center;
+
+  background: #d92b2b;
+  color: #fff;
+  font-weight: 600;
+
+  padding: 8px 14px;            
+  font-size: 0.9rem;
+  border-radius: 8px;
+
+  box-shadow: 0 4px 12px rgba(217,43,43,0.22);
+}
+
+/* Evita que se centre */
+.login-mobile-fixed .container {
+  display: flex;
+  justify-content: flex-end;   
+}
+
+/* Hover */
+.login-mobile-inline:hover {
+  background: #c62828;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .login-mobile-fixed {
+    background: rgba(4,18,36,0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+}
+
 
 
 
