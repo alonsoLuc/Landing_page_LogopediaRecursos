@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Herramientas digitales | LogopediaApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<!-- NAV reutilizada -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-4">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/dashboard.html">LogopediaApp</a>
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/dashboard.html">Mi cuenta</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="tools.html">
+          Herramientas digitales
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <h4 class="mb-4">Herramientas digitales</h4>
+
+  <div class="row g-3">
+
+  <!-- METRÓNOMO -->
+<div class="col-md-4">
+  <div class="card h-100 shadow-sm text-center tool-card">
+
+    <!-- ICONO -->
+    <div class="tool-icon-wrapper">
+      <img
+        src="/tools/icons/metronomo.png"
+        alt="Metrónomo"
+        class="tool-icon"
+      >
+    </div>
+
+    <div class="card-body pt-0">
+      <h5 class="card-title mt-2">Metrónomo</h5>
+
+      <p class="card-text text-muted">
+        Ritmo y tempo para ejercicios de habla y motricidad.
+      </p>
+
+      <a href="tools/metronome.html" class="btn btn-primary w-100">
+        Abrir
+      </a>
+    </div>
+
+  </div>
+</div>
+
+
+    <!-- FUTURAS HERRAMIENTAS -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm opacity-50">
+        <div class="card-body">
+          <h5 class="card-title">Próximamente</h5>
+          <p class="text-muted">Nuevas herramientas digitales</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/firebase-init.js"></script>
+<script>
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      window.location.href = "login.html";
+    }
+  });
+</script>
+<style>
+/* Card más suave */
+.tool-card {
+  border-radius: 32px;
+}
+
+/* Contenedor circular del icono (MÁS GRANDE) */
+.tool-icon-wrapper {
+  width: 140px;
+  height: 140px;
+  margin: 32px auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Imagen PROPORCIONADA */
+.tool-icon {
+  width: 125px;   /* 🔑 SIEMPRE menor que el wrapper */
+  height: auto;
+}
+
+/* Hover suave */
+.tool-card:hover {
+  transform: translateY(-2px);
+  transition: 0.2s ease;
+}
+
+
+</style>
+
+</body>
+</html>

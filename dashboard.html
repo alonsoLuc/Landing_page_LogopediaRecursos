@@ -2,174 +2,204 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mi cuenta | LogopediaApp</title>
+  <title>Panel clínico | LogopediaApp</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Firebase SDK -->
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
+  <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: Inter, system-ui, sans-serif; }
+    .card { border-radius: 16px; }
+
+    .profile-card {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .patient-card {
+      cursor: pointer;
+      border: 1px solid #e9ecef;
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      background: #fff;
+      transition: all .2s ease;
+    }
+
+    .patient-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.06);
+    }
+
+    .patient-avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 12px;
+    }
+  </style>
 </head>
 
 <body class="bg-light">
 
-<div class="container mt-5">
-  <div class="card shadow-sm">
-    <div class="card-body">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mb-4">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="dashboard.html">LogopediaApp</a>
 
-      <h4 class="mb-4">Mi cuenta</h4>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <!-- PERFIL -->
-      <div class="row align-items-center mb-4">
-        <div class="col-md-3 text-center">
-          <img id="userImage"
-               src=""
-               alt="Foto perfil"
-               class="rounded-circle mb-3"
-               style="width:120px;height:120px;object-fit:cover;display:none;">
-        </div>
-
-        <div class="col-md-9">
-          <h5 id="userName"></h5>
-          <p class="mb-1"><strong>Email:</strong> <span id="userEmail"></span></p>
-          <p class="mb-1"><strong>Rol:</strong> <span id="userRole"></span></p>
-          <p class="mb-1"><strong>Centro:</strong> <span id="userCenter"></span></p>
-          <p class="mb-1"><strong>Especialidad:</strong> <span id="userSpecialty"></span></p>
-          <p class="mb-1"><strong>Población:</strong> <span id="userCity"></span></p>
-          <p class="mb-1" id="subscriptionRow">
-            <strong>Suscripción:</strong> <span id="userPlan"></span>
-          </p>
-        </div>
-      </div>
-
-      <hr>
-
-    <div id="patientsSection">
-  <h5 class="mt-3">Pacientes asociados</h5>
-
-    <ul id="patientsList" class="list-group mb-3"></ul>
-
-    <p id="noPatients" class="text-muted" style="display:none;">
-      No tienes pacientes asociados.
-    </p>
-
-  <hr>
-</div>
-
-<div id="patientExtras" style="display:none">
-
-  <h5 class="mt-3">Profesional asignado</h5>
-  <ul id="professionalsList" class="list-group mb-3"></ul>
-
-  <h5 class="mt-3">Mis documentos</h5>
-  <div id="patientDocuments"></div>
-
-  <hr>
-</div>
-
-
-
-  <hr>
-      <button class="btn btn-outline-danger" onclick="logout()">
-        Cerrar sesión
-      </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active fw-semibold" href="dashboard.html">Panel clínico</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="tools.html">Herramientas digitales</a>
+        </li>
+      </ul>
     </div>
   </div>
+</nav>
+
+<div class="container">
+
+  <!-- TITLE -->
+  <div class="mb-4">
+    <h3 class="fw-bold">Panel clínico</h3>
+    <p class="text-muted">Gestión de información terapéutica</p>
+  </div>
+
+  <!-- PERFIL (COMÚN) -->
+  <div class="card p-4 mb-4">
+    <div class="profile-card">
+      <img id="userImage" class="rounded-circle"
+           style="width:96px;height:96px;object-fit:cover;display:none;">
+      <div>
+        <h5 id="userName"></h5>
+        <p class="mb-1"><strong>Centro:</strong> <span id="userCenter"></span></p>
+        <p class="mb-1"><strong>Especialidad:</strong> <span id="userSpecialty"></span></p>
+        <p class="mb-1"><strong>Población:</strong> <span id="userCity"></span></p>
+        <p class="mb-0"><strong>Email:</strong> <span id="userEmail"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PROFESIONAL ================= -->
+  <div id="vistaProfesional" style="display:none">
+    <h5 class="mb-3">Pacientes en seguimiento</h5>
+    <div id="patientsGrid" class="row g-4 mb-4"></div>
+    <p id="noPatients" class="text-muted" style="display:none">
+      No hay pacientes asociados
+    </p>
+
+    <div id="patientDetail" class="card p-4 mb-4" style="display:none">
+      <h5 id="patientDetailName" class="mb-3"></h5>
+      <div id="patientDetailDocs"></div>
+    </div>
+  </div>
+
+  <!-- ================= PACIENTE ================= -->
+  <div id="vistaPaciente" style="display:none">
+    <div class="card p-4 mb-4">
+      <h5 class="mb-3">Mis documentos</h5>
+      <div id="patientDocuments"></div>
+    </div>
+
+    <div class="card p-4 mb-4">
+      <h5 class="mb-3">Mi profesional</h5>
+      <ul id="professionalsList" class="list-group"></ul>
+    </div>
+  </div>
+
+  <button class="btn btn-sm btn-outline-secondary mb-5" onclick="logout()">
+    Cerrar sesión
+  </button>
+
 </div>
 
+<!-- FIREBASE INIT -->
 <script src="js/firebase-init.js"></script>
 
 <script>
-  auth.onAuthStateChanged(user => {
-    if (!user) {
-      window.location.href = "login.html";
-      return;
-    }
+auth.onAuthStateChanged(user => {
+  if (!user) return location.href = "login.html";
 
-    document.getElementById("userEmail").textContent = user.email;
-    const uid = user.uid;
+  userEmail.textContent = user.email;
+  const uid = user.uid;
 
-    // 🔍 Intentar PROFESIONAL
-    db.collection("profesionales").doc(uid).get()
-      .then(doc => {
-        if (doc.exists) {
-          // ===== PROFESIONAL =====
-          pintarDatosUsuario(doc.data(), "PROFESIONAL");
+  // ===== PROFESIONAL =====
+  db.collection("profesionales").doc(uid).get().then(doc => {
+    if (doc.exists) {
+      const data = doc.data();
+      pintarPerfilProfesional(data);
+      vistaProfesional.style.display = "block";
+      vistaPaciente.style.display = "none";
+      cargarPacientesProfesional(uid);
+    } else {
+      // ===== PACIENTE =====
+      db.collection("pacientes").doc(uid).get().then(pDoc => {
+        if (!pDoc.exists) return alert("No se encontraron datos");
 
-          // Mostrar secciones profesionales
-          document.getElementById("subscriptionRow").style.display = "block";
-          document.getElementById("patientsSection").style.display = "block";
+        const data = pDoc.data();
+        pintarPerfilPaciente(data);
+        vistaProfesional.style.display = "none";
+        vistaPaciente.style.display = "block";
 
-          cargarPacientesProfesional(uid);
-        } else {
-          // 🔍 Intentar PACIENTE
-          return db.collection("pacientes").doc(uid).get()
-            .then(pacienteDoc => {
-              if (pacienteDoc.exists) {
-                pintarDatosUsuario(pacienteDoc.data(), "PACIENTE");
-
-                // Ocultar lo que NO aplica
-                document.getElementById("subscriptionRow").style.display = "none";
-                document.getElementById("patientsSection").style.display = "none";
-
-                // Mostrar extras del paciente
-                document.getElementById("patientExtras").style.display = "block";
-
-                // 👨‍⚕️ profesional asignado
-                cargarProfesionalesPaciente(pacienteDoc.data());
-
-                // 📂 documentos del propio paciente
-                cargarDocumentosPaciente(
-                  uid,
-                  document.getElementById("patientDocuments"),
-                  null
-                );
-              }
- else {
-                alert("No se encontraron datos del usuario");
-              }
-            });
-        }
-      })
-      .catch(err => {
-        console.error("Error cargando datos:", err);
+        cargarDocumentosPaciente(uid, patientDocuments);
+        cargarProfesionalesPaciente(data);
       });
+    }
   });
+});
 
-  function pintarDatosUsuario(data, rol) {
-    document.getElementById("userName").textContent = data.nombreCompleto || "";
-    document.getElementById("userRole").textContent = rol;
-    document.getElementById("userCenter").textContent =
-      data.centroTrabajo || data.ubicacionClinica || "-";
+/* ===== PERFIL ===== */
 
-    document.getElementById("userSpecialty").textContent =
-      rol === "PROFESIONAL" ? (data.especialidad || "-") : "-";
+function pintarPerfilProfesional(data) {
+  userName.textContent = data.nombreCompleto || "";
+  userCenter.textContent = data.centroTrabajo || "-";
+  userSpecialty.textContent = data.especialidad || "-";
+  userCity.textContent = data.poblacion || "-";
 
-    document.getElementById("userCity").textContent = data.poblacion || "-";
-
-    if (rol === "PROFESIONAL") {
-      document.getElementById("userPlan").textContent =
-        data.tieneSuscripcion ? "Activa" : "Sin suscripción";
-    }
-
-    if (data.imagen) {
-      const img = document.getElementById("userImage");
-      img.src = data.imagen;
-      img.style.display = "block";
-    }
+  if (data.imagen) {
+    userImage.src = data.imagen;
+    userImage.style.display = "block";
   }
+}
 
- function cargarPacientesProfesional(uidProfesional) {
-  const list = document.getElementById("patientsList");
-  const noPatients = document.getElementById("noPatients");
+function pintarPerfilPaciente(data) {
+  userName.textContent = data.nombreCompleto || "";
+  userCenter.textContent = data.centroLogopedia || "-";
+  userSpecialty.textContent = "-";
+  userCity.textContent = data.poblacion || "-";
 
-  list.innerHTML = "";
+  if (data.imagen) {
+    userImage.src = data.imagen;
+    userImage.style.display = "block";
+  }
+}
+
+/* ===== PROFESIONAL ===== */
+
+function cargarPacientesProfesional(uid) {
+  patientsGrid.innerHTML = "";
   noPatients.style.display = "none";
 
   db.collection("pacientes")
-    .where("profesionalUids", "array-contains", uidProfesional)
+    .where("profesionalUids", "array-contains", uid)
     .get()
     .then(snapshot => {
       if (snapshot.empty) {
@@ -177,73 +207,35 @@
         return;
       }
 
-      let index = 0;
-
       snapshot.forEach(doc => {
         const p = doc.data();
-        const pacienteId = doc.id;
-        const collapseId = `collapse-${pacienteId}-${index++}`;
+        const col = document.createElement("div");
+        col.className = "col-md-4 col-sm-6";
 
-        const li = document.createElement("li");
-        li.className = "list-group-item";
-
-        li.innerHTML = `
-          <div class="accordion" id="accordion-${pacienteId}">
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#${collapseId}">
-                  
-                  <div class="w-100 d-flex justify-content-between align-items-center">
-                    <div>
-                      <strong>${p.nombreCompleto}</strong><br>
-                      <small class="text-muted">
-                        ${p.edad ? p.edad + " años · " : ""}
-                        ${p.centroColegio || ""}
-                      </small>
-                    </div>
-
-                    <span class="badge bg-secondary ms-3"
-                          id="count-${pacienteId}">
-                      0 docs
-                    </span>
-                  </div>
-
-                </button>
-              </h2>
-
-              <div id="${collapseId}" class="accordion-collapse collapse">
-                <div class="accordion-body">
-                  <div id="docs-${pacienteId}">
-                    <small class="text-muted">Cargando documentos…</small>
-                  </div>
-                </div>
-              </div>
-            </div>
+        col.innerHTML = `
+          <div class="patient-card"
+               onclick="abrirPaciente('${doc.id}', '${p.nombreCompleto}')">
+            <img src="${p.imagen || 'https://via.placeholder.com/150'}"
+                 class="patient-avatar">
+            <div class="fw-semibold">${p.nombreCompleto}</div>
+            <small class="text-muted">${p.edad || ""} años</small>
           </div>
         `;
 
-        list.appendChild(li);
-
-        // 📂 cargar documentos reales
-        const docsContainer = document.getElementById(`docs-${pacienteId}`);
-        const counter = document.getElementById(`count-${pacienteId}`);
-
-        cargarDocumentosPaciente(pacienteId, docsContainer, counter);
+        patientsGrid.appendChild(col);
       });
     });
 }
 
-  function logout() {
-    auth.signOut().then(() => {
-      window.location.href = "login.html";
-    });
-  }
-</script>
+function abrirPaciente(pacienteId, nombre) {
+  patientDetail.style.display = "block";
+  patientDetailName.textContent = nombre;
+  cargarDocumentosPaciente(pacienteId, patientDetailDocs);
+}
 
-<script>
-function cargarDocumentosPaciente(pacienteId, container, counter) {
+/* ===== DOCUMENTOS ===== */
+
+function cargarDocumentosPaciente(pacienteId, container) {
   container.innerHTML = "";
 
   db.collection("pacientes")
@@ -254,102 +246,60 @@ function cargarDocumentosPaciente(pacienteId, container, counter) {
     .then(snapshot => {
       if (snapshot.empty) {
         container.innerHTML =
-          `<small class="text-muted">Sin documentos</small>`;
-        if (counter) counter.textContent = "0 docs";
+          "<small class='text-muted'>No hay documentos</small>";
         return;
       }
 
-      if (counter) counter.textContent = `${snapshot.size} docs`;
-
       snapshot.forEach(doc => {
         const d = doc.data();
-
-        const fecha = d.fechaSubida
-          ? new Date(d.fechaSubida).toLocaleDateString()
-          : "";
-
-        const item = document.createElement("div");
-        item.className = "border rounded p-2 mb-2";
-
-        item.innerHTML = `
-          <div class="d-flex justify-content-between align-items-center">
+        container.innerHTML += `
+          <div class="border rounded p-2 mb-2 d-flex justify-content-between">
             <div>
-              <strong>${d.nombreDocumento || "Documento"}</strong><br>
-              <small class="text-muted">${fecha}</small>
+              <strong>${d.nombreDocumento}</strong><br>
+              <small class="text-muted">
+                ${new Date(d.fechaSubida).toLocaleDateString()}
+              </small>
             </div>
-
-            <div class="btn-group">
-              
-
-             <button class="btn btn-sm btn-outline-primary"
-  onclick="descargarDesdeFirebase(
-    '${d.urlDocumento}',
-    '${d.nombreDocumento}'
-  )">
-  Descargar
-</button>
-
-
-            </div>
+            <button class="btn btn-sm btn-outline-primary"
+              onclick="descargarDesdeFirebase('${d.urlDocumento}','${d.nombreDocumento}')">
+              Exportar
+            </button>
           </div>
         `;
-
-
-        container.appendChild(item);
       });
-    })
-    .catch(err => {
-      console.error("Error cargando documentos:", err);
-      container.innerHTML =
-        `<small class="text-danger">Error cargando documentos</small>`;
-      if (counter) counter.textContent = "!";
     });
 }
-</script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
-  //Esto hace que se vea el acordeon para la descarga de documentos
-</script>
-<script>
-function descargarDesdeFirebase(urlOriginal, nombreArchivo) {
-  const url = new URL(urlOriginal);
-  url.searchParams.set(
-    "response-content-disposition",
-    `attachment; filename="${nombreArchivo}"`
-  );
+/* ===== PACIENTE ===== */
 
-  window.open(url.toString(), "_blank");
-}
-</script>
-<script>
-function cargarProfesionalesPaciente(dataPaciente) {
-  const list = document.getElementById("professionalsList");
-  list.innerHTML = "";
+function cargarProfesionalesPaciente(data) {
+  professionalsList.innerHTML = "";
 
-  const profesionales = dataPaciente.profesionalIds || [];
-
-  if (profesionales.length === 0) {
-    list.innerHTML =
-      `<li class="list-group-item text-muted">
-        No tienes profesional asignado
-      </li>`;
-    return;
-  }
-
-  profesionales.forEach(p => {
-    const li = document.createElement("li");
-    li.className = "list-group-item";
-
-    li.innerHTML = `
-      <strong>${p.nombreCompleto || "Profesional"}</strong><br>
-      <small class="text-muted">
-        ${p.centroTrabajo || ""}
-      </small>
+  (data.profesionalIds || []).forEach(p => {
+    professionalsList.innerHTML += `
+      <li class="list-group-item">
+        <strong>${p.nombreCompleto || "Profesional"}</strong>
+      </li>
     `;
-
-    list.appendChild(li);
   });
 }
+
+/* ===== UTIL ===== */
+
+function descargarDesdeFirebase(url, nombre) {
+  const u = new URL(url);
+  u.searchParams.set(
+    "response-content-disposition",
+    `attachment; filename="${nombre}"`
+  );
+  window.open(u.toString(), "_blank");
+}
+
+function logout() {
+  auth.signOut().then(() => location.href = "login.html");
+}
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
